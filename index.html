@@ -15,28 +15,56 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+(function(){try{var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+</script>
 <style>
 :root{
   --bg:#ffffff; --bg-alt:#f6f6f4; --text:#141414; --muted:#5c5c5c; --faint:#6b6b6b;
   --line:#e4e4e1; --accent:#2f5d3a; --max:1040px;
+  --body:#333; --body-strong:#2a2a2a; --on-text:#fff; --btn-hover:#333;
+  --nav-bg:rgba(255,255,255,.92); --chip-bg:rgba(0,0,0,.055); --card:#fff;
+  --switch-track:#e4e4e1; --switch-knob:#fff;
+  color-scheme:light;
 }
+:root[data-theme="dark"]{
+  --bg:#121412; --bg-alt:#1a1d1a; --text:#ececea; --muted:#a8aba6; --faint:#959892;
+  --line:#2c302c; --accent:#7fb58b;
+  --body:#cfd1cc; --body-strong:#dcdeda; --on-text:#121412; --btn-hover:#cfd1cc;
+  --nav-bg:rgba(18,20,18,.88); --chip-bg:rgba(255,255,255,.08); --card:#1a1d1a;
+  --switch-track:#2f5d3a; --switch-knob:#ececea;
+  color-scheme:dark;
+}
+body,header.nav,section.alt,.lang,.chip,.btn{transition:background-color .2s,color .2s,border-color .2s}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-.skip{position:absolute;left:16px;top:8px;transform:translateY(-200%);z-index:20;background:var(--text);color:#fff;padding:12px 16px;border-radius:4px;font-weight:600;text-decoration:none}
+.skip{position:absolute;left:16px;top:8px;transform:translateY(-200%);z-index:20;background:var(--text);color:var(--on-text);padding:12px 16px;border-radius:4px;font-weight:600;text-decoration:none}
 .skip:focus{transform:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 
 /* nav */
-header.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.nav{position:sticky;top:0;z-index:10;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
 .brand{font-weight:700;letter-spacing:-.01em;text-decoration:none}
 nav ul{display:flex;gap:28px;list-style:none}
 nav a{text-decoration:none;font-size:14px;color:var(--muted);font-weight:500}
 nav a:hover{color:var(--text)}
+.nav-end{display:flex;align-items:center;gap:28px}
+
+/* theme switch */
+.theme-switch{display:inline-flex;align-items:center;flex-shrink:0;background:none;border:0;padding:0;cursor:pointer;color:var(--muted)}
+.theme-switch:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:999px}
+.theme-switch .track{position:relative;display:block;width:52px;height:28px;border-radius:999px;background:var(--switch-track);border:1px solid var(--line);transition:background-color .2s}
+.theme-switch .knob{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--switch-knob);box-shadow:0 1px 3px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;color:#141414;transition:transform .2s ease}
+.theme-switch .knob svg{width:14px;height:14px;position:absolute;transition:opacity .2s}
+.theme-switch[aria-checked="true"] .knob{transform:translateX(24px)}
+.theme-switch .moon{opacity:0}
+.theme-switch[aria-checked="true"] .moon{opacity:1}
+.theme-switch[aria-checked="true"] .sun{opacity:0}
 
 /* hero */
 .hero{padding:88px 0 72px}
@@ -45,11 +73,11 @@ nav a:hover{color:var(--text)}
 .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 h1{font-size:clamp(36px,5vw,52px);line-height:1.08;letter-spacing:-.03em;font-weight:700;margin-bottom:12px}
 .role{font-size:20px;color:var(--muted);font-weight:500;margin-bottom:24px}
-.lead{font-size:17px;color:#333;max-width:600px;margin-bottom:32px}
+.lead{font-size:17px;color:var(--body);max-width:600px;margin-bottom:32px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:6px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--text);transition:.15s}
-.btn.primary{background:var(--text);color:#fff}
-.btn.primary:hover{background:#333}
+.btn.primary{background:var(--text);color:var(--on-text)}
+.btn.primary:hover{background:var(--btn-hover)}
 .btn.ghost:hover{background:var(--bg-alt)}
 .btn svg{width:16px;height:16px}
 .portrait{width:240px;height:240px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
@@ -73,18 +101,18 @@ h3{font-size:20px;font-weight:600;letter-spacing:-.01em}
 .sub{color:var(--muted);font-size:15px}
 .date{font-size:14px;color:var(--faint);white-space:nowrap}
 
-.about p{font-size:18px;color:#2a2a2a;margin-bottom:16px;max-width:680px}
+.about p{font-size:18px;color:var(--body-strong);margin-bottom:16px;max-width:680px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.chip{font-size:13px;padding:4px 8px;border-radius:4px;background:rgba(0,0,0,.055);color:#2a2a2a}
+.chip{font-size:13px;padding:4px 8px;border-radius:4px;background:var(--chip-bg);color:var(--body-strong)}
 
 .job{padding-bottom:40px;margin-bottom:40px;border-bottom:1px solid var(--line)}
 .job:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
 .job-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:4px}
-.job .desc{margin:12px 0 20px;color:#333}
+.job .desc{margin:12px 0 20px;color:var(--body)}
 .areas{display:grid;grid-template-columns:1fr 1fr;gap:24px 32px}
 .area h4{font-size:14px;font-weight:600;margin-bottom:8px}
 ul.pts{list-style:none}
-ul.pts li{position:relative;padding-left:16px;font-size:15px;color:#333;margin-bottom:8px}
+ul.pts li{position:relative;padding-left:16px;font-size:15px;color:var(--body);margin-bottom:8px}
 ul.pts li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:1px;background:var(--text)}
 
 .skills{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -92,7 +120,7 @@ ul.pts li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:
 .skill .chips{margin-top:0}
 
 .langs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
-.lang{border:1px solid var(--line);border-radius:8px;padding:16px;background:#fff}
+.lang{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--card)}
 .lang b{display:block;font-weight:600}
 .lang span{font-size:14px;color:var(--muted)}
 
@@ -104,7 +132,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 @media (max-width:820px){
   html{scroll-padding-top:112px}
-  header.nav .wrap{height:auto;flex-direction:column;align-items:stretch;padding-top:12px}
+  header.nav .wrap{height:auto;flex-wrap:wrap;padding-top:12px}
+  .nav-end{display:contents}
+  .theme-switch{order:2}
+  nav{order:3;flex-basis:100%}
   nav{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -24px;padding:0 24px}
   nav::-webkit-scrollbar{display:none}
   nav ul{gap:24px;white-space:nowrap}
@@ -133,13 +164,21 @@ main:focus{outline:none}
 <header class="nav">
   <div class="wrap">
     <a href="#main" class="brand">Nived R Nair</a>
-    <nav><ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul></nav>
+    <div class="nav-end">
+      <nav><ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul></nav>
+      <button type="button" class="theme-switch" role="switch" aria-checked="false" aria-label="Dark mode" title="Toggle dark mode">
+        <span class="track"><span class="knob">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -308,5 +347,20 @@ main:focus{outline:none}
 <footer>
   <div class="wrap"><span>© 2026 Nived R Nair</span><span>Barcelona, Spain</span></div>
 </footer>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.querySelector('.theme-switch');
+  function apply(t,save){
+    root.setAttribute('data-theme',t);
+    btn.setAttribute('aria-checked',t==='dark'?'true':'false');
+    if(save){try{localStorage.setItem('theme',t)}catch(e){}}
+  }
+  apply(root.getAttribute('data-theme')==='dark'?'dark':'light',false);
+  btn.addEventListener('click',function(){apply(root.getAttribute('data-theme')==='dark'?'light':'dark',true)});
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){
+    if(!localStorage.getItem('theme'))apply(e.matches?'dark':'light',false);
+  })}catch(e){}
+})();
+</script>
 </body>
 </html>
